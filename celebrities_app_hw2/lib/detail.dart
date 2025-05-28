@@ -6,7 +6,7 @@ class CelebrityDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(celebrity);
+    //print(celebrity);
     return Scaffold(
       appBar: AppBar(
         title: Text(celebrity["name"]),
