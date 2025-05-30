@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:celebrities_app_hw2/detail.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:record/record.dart';
+import 'package:celebrities_app_hw2/stt.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -137,6 +141,10 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  bool isRecording = false;
+  final record = AudioRecorder();
+  final player = AudioPlayer();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -145,9 +153,54 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Column(
         children: [
-          // The Search Bar
+          // The Recording Button & Search Bar
           Row(
             children: [
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 10),
+                width: 40,
+                height: 40,
+                child: FloatingActionButton.extended(
+                  onPressed: () async {
+                    final tempPath = await getTemporaryDirectory();
+                    String path = "${tempPath.path}/audio.wav";
+                    if(isRecording){
+                      // Stop recording
+                      await record.stop();
+                      // Request function in stt.dart
+                      String? result = await request(path);
+                      //print(result);
+                        if(result != null){
+                          _searchController.text = result;
+                        }else{
+                          _searchController.text = "";
+                        }
+
+                      isRecording = false;
+                    }else{
+                      // Start recording
+                      if(await record.hasPermission()){
+                        await record.start(
+                          const RecordConfig(
+                            sampleRate: 16000,
+                            numChannels: 1,
+                            encoder: AudioEncoder.wav,
+                          ),
+                        path: path
+                        );
+                      }
+                      isRecording = true;
+                    }
+                    setState(() {});
+                  },
+                  label: const Icon(
+                    Icons.mic,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                  backgroundColor: isRecording ? Colors.red : Colors.blue,
+                ),
+              ),
               Expanded(
                 child: Container(
                   margin: const EdgeInsets.all(10),
