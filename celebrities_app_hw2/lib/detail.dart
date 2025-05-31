@@ -4,21 +4,39 @@ import 'package:just_audio/just_audio.dart';
 
 class CelebrityDetail extends StatelessWidget {
   final Map<String, dynamic> celebrity;
-  const CelebrityDetail({super.key, required this.celebrity});
+  final String language;
+  // const Constructor: Every var in field is at least final(const)
+  const CelebrityDetail({super.key, required this.celebrity, required this.language});
 
   @override
   Widget build(BuildContext context) {
     //print(celebrity);
     return Scaffold(
       appBar: AppBar(
-        title: Text(celebrity["name"]),
+        centerTitle: true,
+        title: Column(
+          children: [
+            Text(
+                celebrity["name"][language],
+                style: TextStyle(
+                  fontWeight: FontWeight.bold
+                ),
+            ),
+            Text(
+              celebrity["occupation"][language],
+              style: TextStyle(
+                fontSize: 15
+              ),
+            )
+          ],
+        )
       ),
       body: SingleChildScrollView( // Because there are variables passed within the widget class, so cannot write const WidgetClass
         child: Column(
           children: [
             ImageSection(celebrity: celebrity,),
-            DescriptionSection(celebrity: celebrity,),
-            FloatingButtonSection(celebrity: celebrity),
+            DescriptionSection(celebrity: celebrity, language: language,),
+            FloatingButtonSection(celebrity: celebrity, language: language,),
           ],
         ),
       ),
@@ -48,14 +66,15 @@ class ImageSection extends StatelessWidget {
 // Description Class
 class DescriptionSection extends StatelessWidget {
   final Map<String, dynamic> celebrity;
-  const DescriptionSection({super.key, required this.celebrity});
+  final String language;
+  const DescriptionSection({super.key, required this.celebrity, required this.language});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 20, horizontal: 15),
       child: Text(
-        celebrity["description"],
+        celebrity["description"][language],
       ),
     );
   }
@@ -64,7 +83,8 @@ class DescriptionSection extends StatelessWidget {
 // Floating Button Widget Class
 class FloatingButtonSection extends StatelessWidget {
   final Map<String, dynamic> celebrity;
-  const FloatingButtonSection({super.key, required this.celebrity});
+  final String language;
+  const FloatingButtonSection({super.key, required this.celebrity, required this.language});
 
   @override
   Widget build(BuildContext context) {
