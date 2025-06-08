@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:finalproject_coursework/userlogin.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();  // Ensures flutter is ready for async (required for firebase)
+  await Firebase.initializeApp(); // Initialize Firebase
   runApp(const MyApp());
 }
 
@@ -12,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Final Project',
       theme: ThemeData(
         // This is the theme of your application.
         //
