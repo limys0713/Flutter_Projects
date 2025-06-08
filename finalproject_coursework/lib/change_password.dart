@@ -10,11 +10,17 @@ class ChangePassword extends StatefulWidget {
 
 class _ChangePasswordState extends State<ChangePassword> {
 
-  final TextEditingController resetPasswordEmail = TextEditingController();
+  final TextEditingController resetPasswordEmailController = TextEditingController();
+
+  @override
+  void dispose(){
+    resetPasswordEmailController.dispose();
+    super.dispose();
+  }
 
   void resetPassword() async{
 
-    final email = resetPasswordEmail.text.trim();
+    final email = resetPasswordEmailController.text.trim();
 
     if(email.isEmpty){
       ScaffoldMessenger.of(context).showSnackBar(
@@ -53,7 +59,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               Text('Reset Password', style: TextStyle(fontSize: 32)),
               SizedBox(height: 40),
               TextField(
-                controller: resetPasswordEmail,
+                controller: resetPasswordEmailController,
                 decoration: InputDecoration(
                   labelText: 'Enter your email',
                   border: OutlineInputBorder()

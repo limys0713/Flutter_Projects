@@ -69,9 +69,10 @@ class _UserLoginState extends State<UserLogin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('User Login'),
-      ),
+      // appBar: AppBar(
+      //   title: const Text('User Login'),
+      // ),
+      backgroundColor: Colors.blue[50],
       // User Login UI
       body: Center(
         child: Padding(
@@ -79,8 +80,24 @@ class _UserLoginState extends State<UserLogin> {
           child: Column(
             mainAxisSize: MainAxisSize.min, // Tells the Column to only occupy as much vertical space as its children need
             children: [
+              Icon(Icons.local_hospital_rounded, size: 100, color: Colors.red[600]),
+              // Image.asset(
+              //   'assets/images/healthcare_image.png',
+              //   height: 120,
+              // ),
+              Text(
+                'Healthcare Visit Helper APP',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 45,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue[900],
+                  letterSpacing: 1.0
+                ),
+              ),
+              SizedBox(height: 45),
               Text('User Login', style: TextStyle(fontSize: 32)),
-              SizedBox(height: 40),  // Adds vertical spacing below the title
+              SizedBox(height: 20),  // Adds vertical spacing below the title
               /* Email Input */
               TextField(  // Widget class that used to get input
                 controller: emailController,  // TextEditingController variable
