@@ -80,7 +80,7 @@ class _UserLoginState extends State<UserLogin> {
             mainAxisSize: MainAxisSize.min, // Tells the Column to only occupy as much vertical space as its children need
             children: [
               Text('User Login', style: TextStyle(fontSize: 32)),
-              SizedBox(height: 25),  // Adds vertical spacing below the title
+              SizedBox(height: 40),  // Adds vertical spacing below the title
               /* Email Input */
               TextField(  // Widget class that used to get input
                 controller: emailController,  // TextEditingController variable
@@ -115,15 +115,15 @@ class _UserLoginState extends State<UserLogin> {
                         MaterialPageRoute(builder: (context) => ChangePassword()) // Takes context as input and returns the screen/widget you want to display
                     );
                   },
-                  child: Text('Forgot your password? Change here')
+                  child: Text('Forgot your password? Reset here')
               ),
               SizedBox(height: 15),
               /* Login Button */
               ElevatedButton( // A raised button with background colour and elevation
-                  onPressed: handleLogin, // Passing a function >> run when the button is pressed // handleLogin(): Calling the function and trying to give its result(void) to onPressed
+                  onPressed: handleLogin, // Passing a function >> run when the button  is pressed // handleLogin(): Calling the function and trying to give its result(void) to onPressed
                   child: Text('Login')
               ),
-              SizedBox(height: 80),
+              SizedBox(height: 65),
               TextButton(
                   onPressed: () {
                     Navigator.push(

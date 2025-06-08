@@ -1,3 +1,16 @@
+// REQUIRED: Add this buildscript block at the top to load Firebase plugin
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        // 🔥 This is the Firebase Gradle plugin that reads google-services.json
+        classpath("com.google.gms:google-services:4.3.15")
+    }
+}
+
 allprojects {
     repositories {
         google()
