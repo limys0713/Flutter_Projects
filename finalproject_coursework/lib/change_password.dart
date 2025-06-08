@@ -53,12 +53,12 @@ class _ChangePasswordState extends State<ChangePassword> {
       ),
       backgroundColor: Colors.blue[50],
       body: Padding(
-        padding: EdgeInsets.symmetric(vertical: 80, horizontal: 20),
+        padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text('Reset Password', style: TextStyle(fontSize: 32)),
-            SizedBox(height: 40),
+            SizedBox(height: 35),
             TextField(
               controller: resetPasswordEmailController,
               decoration: InputDecoration(
@@ -72,7 +72,7 @@ class _ChangePasswordState extends State<ChangePassword> {
             ElevatedButton(
                 onPressed: resetPassword,
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-                child: Text('Send Reset Link')
+                child: const Text('Send Reset Link')
             )
           ],
         ),
