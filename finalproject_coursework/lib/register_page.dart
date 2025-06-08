@@ -14,7 +14,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
   bool _obscurePassword = true;
-  bool _confirmobscurePassword = true;
+  bool _confirmObscurePassword = true;
 
   // Clear memory
   @override
@@ -73,18 +73,23 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Register')),
+      appBar: AppBar(backgroundColor: Colors.blue[50]),
+      backgroundColor: Colors.blue[50],
       body: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            Text('Register Account', style: TextStyle(fontSize: 32)),
+            SizedBox(height: 35),
             /* Email Text Field */
             TextField(
               controller: emailController,
               decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Email'
+                border: OutlineInputBorder(),
+                labelText: 'Email',
+                filled: true,
+                fillColor: Colors.white
               ),
             ),
             SizedBox(height: 20),
@@ -95,6 +100,8 @@ class _RegisterPageState extends State<RegisterPage> {
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Password',
+                filled: true,
+                fillColor: Colors.white,
                 suffixIcon: IconButton(
                     onPressed: () {
                       setState(() {
@@ -109,15 +116,17 @@ class _RegisterPageState extends State<RegisterPage> {
             /* Confirm Password Text Field */
             TextField(
               controller: confirmPasswordController,
-              obscureText: _confirmobscurePassword,
+              obscureText: _confirmObscurePassword,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Confirm Password',
+                filled: true,
+                fillColor: Colors.white,
                 suffixIcon: IconButton(
                   icon: Icon(Icons.remove_red_eye),
                   onPressed: () {
                     setState(() {
-                      _confirmobscurePassword = !_confirmobscurePassword; // Toggle
+                      _confirmObscurePassword = !_confirmObscurePassword; // Toggle
                     });
                   }
                 )
@@ -126,6 +135,7 @@ class _RegisterPageState extends State<RegisterPage> {
             SizedBox(height: 15),
             ElevatedButton(
                 onPressed: handleRegister,  // Jump to handleRegister function
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
                 child: Text('Register')
             )
           ],
