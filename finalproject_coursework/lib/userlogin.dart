@@ -75,7 +75,7 @@ class _UserLoginState extends State<UserLogin> {
       backgroundColor: Colors.blue[50],
       // User Login UI
       body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(vertical: 120, horizontal: 15),
+        padding: EdgeInsets.symmetric(vertical: 120, horizontal: 20),
         child: Column(
           mainAxisSize: MainAxisSize.min, // Tells the Column to only occupy as much vertical space as its children need
           children: [
@@ -95,7 +95,7 @@ class _UserLoginState extends State<UserLogin> {
               ),
             ),
             SizedBox(height: 45),
-            Text('User Login', style: TextStyle(fontSize: 32)),
+            const Text('User Login', style: TextStyle(fontSize: 32)),
             SizedBox(height: 20),  // Adds vertical spacing below the title
             /* Email Input */
             TextField(  // Widget class that used to get input
@@ -135,7 +135,7 @@ class _UserLoginState extends State<UserLogin> {
                       MaterialPageRoute(builder: (context) => ChangePassword()) // Takes context as input and returns the screen/widget you want to display
                   );
                 },
-                child: Text('Forgot your password? Reset here')
+                child: const Text('Forgot your password? Reset here')
             ),
             SizedBox(height: 15),
             /* Login Button */
@@ -144,7 +144,7 @@ class _UserLoginState extends State<UserLogin> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
               ),
-              child: Text('Login'),
+              child: const Text('Login'),
             ),
             SizedBox(height: 65),
             TextButton(
@@ -154,7 +154,7 @@ class _UserLoginState extends State<UserLogin> {
                       MaterialPageRoute(builder: (context) => RegisterPage()) // Takes context as input and returns the screen/widget you want to display
                   );
                 },
-                child: Text('Don\'t have an account? Register here')
+                child: const Text('Don\'t have an account? Register here')
             ),
           ],
         ),
