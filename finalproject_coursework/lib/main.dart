@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,  // Hide upper right corner debug text
       title: 'Final Project',
       theme: ThemeData(
         // This is the theme of your application.
