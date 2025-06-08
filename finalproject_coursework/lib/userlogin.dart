@@ -74,84 +74,89 @@ class _UserLoginState extends State<UserLogin> {
       // ),
       backgroundColor: Colors.blue[50],
       // User Login UI
-      body: Center(
-        child: Padding(
-          padding: EdgeInsets.all(15),
-          child: Column(
-            mainAxisSize: MainAxisSize.min, // Tells the Column to only occupy as much vertical space as its children need
-            children: [
-              Icon(Icons.local_hospital_rounded, size: 100, color: Colors.red[600]),
-              // Image.asset(
-              //   'assets/images/healthcare_image.png',
-              //   height: 120,
-              // ),
-              Text(
-                'Healthcare Visit Helper APP',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 45,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue[900],
-                  letterSpacing: 1.0
-                ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(vertical: 120, horizontal: 15),
+        child: Column(
+          mainAxisSize: MainAxisSize.min, // Tells the Column to only occupy as much vertical space as its children need
+          children: [
+            Icon(Icons.local_hospital_rounded, size: 100, color: Colors.red[600]),
+            // Image.asset(
+            //   'assets/images/healthcare_image.png',
+            //   height: 120,
+            // ),
+            Text(
+              'Healthcare Visit Helper APP',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 45,
+                fontWeight: FontWeight.bold,
+                color: Colors.blue[900],
+                letterSpacing: 1.0
               ),
-              SizedBox(height: 45),
-              Text('User Login', style: TextStyle(fontSize: 32)),
-              SizedBox(height: 20),  // Adds vertical spacing below the title
-              /* Email Input */
-              TextField(  // Widget class that used to get input
-                controller: emailController,  // TextEditingController variable
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                  border: OutlineInputBorder()
-                ),
+            ),
+            SizedBox(height: 45),
+            Text('User Login', style: TextStyle(fontSize: 32)),
+            SizedBox(height: 20),  // Adds vertical spacing below the title
+            /* Email Input */
+            TextField(  // Widget class that used to get input
+              controller: emailController,  // TextEditingController variable
+              decoration: InputDecoration(
+                labelText: 'Email',
+                border: OutlineInputBorder(),
+                filled: true,
+                fillColor: Colors.white
               ),
-              SizedBox(height: 12),
-              /* Password Input */
-              TextField(
-                controller: passwordController,
-                obscureText: _obscurePassword,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder(),
-                  suffixIcon: IconButton(
-                      onPressed: (){
-                        setState(() {
-                          _obscurePassword = !_obscurePassword;
-                        });
-                      }, 
-                      icon: Icon(Icons.remove_red_eye)
-                  )
-                ),
+            ),
+            SizedBox(height: 12),
+            /* Password Input */
+            TextField(
+              controller: passwordController,
+              obscureText: _obscurePassword,
+              decoration: InputDecoration(
+                labelText: 'Password',
+                border: OutlineInputBorder(),
+                filled: true,
+                fillColor: Colors.white,
+                suffixIcon: IconButton(
+                    onPressed: (){
+                      setState(() {
+                        _obscurePassword = !_obscurePassword;
+                      });
+                    },
+                    icon: Icon(Icons.remove_red_eye)
+                )
               ),
-              SizedBox(height: 6),
-              TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ChangePassword()) // Takes context as input and returns the screen/widget you want to display
-                    );
-                  },
-                  child: Text('Forgot your password? Reset here')
+            ),
+            SizedBox(height: 6),
+            TextButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ChangePassword()) // Takes context as input and returns the screen/widget you want to display
+                  );
+                },
+                child: Text('Forgot your password? Reset here')
+            ),
+            SizedBox(height: 15),
+            /* Login Button */
+            ElevatedButton( // A raised button with background colour and elevation
+              onPressed: handleLogin, // Passing a function >> run when the button  is pressed // handleLogin(): Calling the function and trying to give its result(void) to onPressed
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
               ),
-              SizedBox(height: 15),
-              /* Login Button */
-              ElevatedButton( // A raised button with background colour and elevation
-                  onPressed: handleLogin, // Passing a function >> run when the button  is pressed // handleLogin(): Calling the function and trying to give its result(void) to onPressed
-                  child: Text('Login')
-              ),
-              SizedBox(height: 65),
-              TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => RegisterPage()) // Takes context as input and returns the screen/widget you want to display
-                    );
-                  },
-                  child: Text('Don\'t have an account? Register here')
-              ),
-            ],
-          ),
+              child: Text('Login'),
+            ),
+            SizedBox(height: 65),
+            TextButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => RegisterPage()) // Takes context as input and returns the screen/widget you want to display
+                  );
+                },
+                child: Text('Don\'t have an account? Register here')
+            ),
+          ],
         ),
       ),
     );
