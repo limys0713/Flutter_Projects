@@ -47,32 +47,35 @@ class _ChangePasswordState extends State<ChangePassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Reset Password'),
+      appBar: AppBar( // To let the return arrow exists
+        //title: Text('Reset Password'),
+        backgroundColor: Colors.blue[50],
       ),
-      body: Center(
-        child: Padding(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('Reset Password', style: TextStyle(fontSize: 32)),
-              SizedBox(height: 40),
-              TextField(
-                controller: resetPasswordEmailController,
-                decoration: InputDecoration(
-                  labelText: 'Enter your email',
-                  border: OutlineInputBorder()
-                ),
+      backgroundColor: Colors.blue[50],
+      body: Padding(
+        padding: EdgeInsets.symmetric(vertical: 80, horizontal: 20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Reset Password', style: TextStyle(fontSize: 32)),
+            SizedBox(height: 40),
+            TextField(
+              controller: resetPasswordEmailController,
+              decoration: InputDecoration(
+                labelText: 'Enter your email',
+                border: OutlineInputBorder(),
+                filled: true,
+                fillColor: Colors.white
               ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                  onPressed: resetPassword,
-                  child: Text('Send Reset Link')
-              )
-            ],
-          ),
-        )
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+                onPressed: resetPassword,
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                child: Text('Send Reset Link')
+            )
+          ],
+        ),
       )
     );
   }
