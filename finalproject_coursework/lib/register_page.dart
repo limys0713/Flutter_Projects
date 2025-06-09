@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:finalproject_coursework/language_mapping.dart';
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+  final String selectedLanguage;
+  final ValueChanged<String> onLanguageChanged;
+  const RegisterPage({super.key, required this.selectedLanguage, required this.onLanguageChanged});
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -32,14 +35,14 @@ class _RegisterPageState extends State<RegisterPage> {
 
     if(email.isEmpty || password.isEmpty || confirmPassword.isEmpty){
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please fill in all fields'))
+        SnackBar(content: Text(textLanguage[widget.selectedLanguage]!['pleaseFillAll']!))
       );
       return;
     }
 
     if(password != confirmPassword){
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Passwords do not match'))
+          SnackBar(content: Text(textLanguage[widget.selectedLanguage]!['passwordNotMatch']!))
       );
       return;
     }
@@ -56,7 +59,7 @@ class _RegisterPageState extends State<RegisterPage> {
       if (!mounted) return;
 
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Registration successful!'))
+          SnackBar(content: Text(textLanguage[widget.selectedLanguage]!['registerSuccess']!))
       );
 
       // Navigate back to login
@@ -65,7 +68,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
     } catch(e){
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Registration failed: ${e.toString()}'))
+          SnackBar(content: Text('${textLanguage[widget.selectedLanguage]!['registerFail']!}: ${e.toString()}'))
       );
     }
   }
@@ -73,21 +76,33 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.blue[50]),
+      appBar: AppBar(
+        backgroundColor: Colors.blue[50],
+        actions: [
+          PopupMenuButton(
+            icon: Icon(Icons.language),
+            onSelected: widget.onLanguageChanged,
+            itemBuilder: (BuildContext context) => [
+              PopupMenuItem(value: 'en', child: Text('English')), // value is the thing that gets returned when that item is clicked
+              PopupMenuItem(value: 'zh', child: Text('中文'))
+            ]
+          )
+        ],
+      ),
       backgroundColor: Colors.blue[50],
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Register Account', style: TextStyle(fontSize: 32)),
+            Text(textLanguage[widget.selectedLanguage]!['registerAccount']!, style: TextStyle(fontSize: 32)),
             SizedBox(height: 35),
             /* Email Text Field */
             TextField(
               controller: emailController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Email',
+                labelText: textLanguage[widget.selectedLanguage]!['email']!,
                 filled: true,
                 fillColor: Colors.white
               ),
@@ -99,7 +114,7 @@ class _RegisterPageState extends State<RegisterPage> {
               obscureText: _obscurePassword,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Password',
+                labelText: textLanguage[widget.selectedLanguage]!['password']!,
                 filled: true,
                 fillColor: Colors.white,
                 suffixIcon: IconButton(
@@ -119,7 +134,7 @@ class _RegisterPageState extends State<RegisterPage> {
               obscureText: _confirmObscurePassword,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Confirm Password',
+                labelText: textLanguage[widget.selectedLanguage]!['confirmPassword']!,
                 filled: true,
                 fillColor: Colors.white,
                 suffixIcon: IconButton(
@@ -136,7 +151,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ElevatedButton(
                 onPressed: handleRegister,  // Jump to handleRegister function
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-                child: Text('Register')
+                child: Text(textLanguage[widget.selectedLanguage]!['register']!)
             )
           ],
         ),

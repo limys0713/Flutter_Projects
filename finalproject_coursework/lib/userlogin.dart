@@ -3,6 +3,7 @@ import 'package:finalproject_coursework/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:finalproject_coursework/home_page.dart';
+import 'package:finalproject_coursework/language_mapping.dart';
 
 class UserLogin extends StatefulWidget {
   const UserLogin({super.key});
@@ -17,6 +18,7 @@ class _UserLoginState extends State<UserLogin> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool _obscurePassword = true;
+  String selectedLanguage = 'en';
 
   /* Dispose objects that managing system memory after the execution ends */
   @override
@@ -32,12 +34,12 @@ class _UserLoginState extends State<UserLogin> {
 
     if(email.isEmpty || password.isEmpty){
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please enter bothe email and password')),
+        SnackBar(content: Text(textLanguage[selectedLanguage]!['pleaseEnterEmailPassword']!)),   // !: null check operator >> ensure that it is not null
       );
       return;
     }
 
-    try{  // Login in successful >> continue
+    try{  /* Login in successful >> continue */
       // FirebaseAuth object used to log in users
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email,
@@ -50,7 +52,7 @@ class _UserLoginState extends State<UserLogin> {
       if (!mounted) return;
 
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Login successful!'))
+          SnackBar(content: Text(textLanguage[selectedLanguage]!['loginSuccess']!))
       );
 
       // TODO: Navigate to another screen here
@@ -59,23 +61,43 @@ class _UserLoginState extends State<UserLogin> {
           MaterialPageRoute(builder: (context) => HomePage())
       );
 
-    } catch(e){ // Fail to login
+    } catch(e){ /* Fail to login */
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Login failed!: ${e.toString()}'))
+          SnackBar(content: Text('${textLanguage[selectedLanguage]!['loginFail']!} ${e.toString()}'))
       );
     }
   }
 
+  void handleLanguageChange(String lang){
+    setState(() {
+      selectedLanguage = lang;
+    });
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('User Login'),
-      // ),
+      appBar: AppBar(
+        backgroundColor: Colors.blue[50],
+        actions: [
+          PopupMenuButton<String>(
+            icon: const Icon(Icons.language),
+            onSelected: (String language){
+              setState(() {
+                selectedLanguage = language;
+              });
+            },
+            itemBuilder: (BuildContext context) => [
+              const PopupMenuItem(value: 'en', child: Text('English')),
+              const PopupMenuItem(value: 'zh', child: Text('中文')),
+            ]
+          )
+        ],
+      ),
       backgroundColor: Colors.blue[50],
       // User Login UI
       body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(vertical: 120, horizontal: 20),
+        padding: EdgeInsets.symmetric(vertical: 80, horizontal: 20),
         child: Column(
           mainAxisSize: MainAxisSize.min, // Tells the Column to only occupy as much vertical space as its children need
           children: [
@@ -84,8 +106,9 @@ class _UserLoginState extends State<UserLogin> {
             //   'assets/images/healthcare_image.png',
             //   height: 120,
             // ),
+            /* App Title */
             Text(
-              'Healthcare Visit Helper APP',
+              textLanguage[selectedLanguage]!['appTitle']!,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 45,
@@ -95,13 +118,14 @@ class _UserLoginState extends State<UserLogin> {
               ),
             ),
             SizedBox(height: 45),
-            const Text('User Login', style: TextStyle(fontSize: 32)),
+            /* User Login Text */
+            Text(textLanguage[selectedLanguage]!['userLogin']!, style: TextStyle(fontSize: 32)),
             SizedBox(height: 20),  // Adds vertical spacing below the title
             /* Email Input */
             TextField(  // Widget class that used to get input
               controller: emailController,  // TextEditingController variable
               decoration: InputDecoration(
-                labelText: 'Email',
+                labelText: textLanguage[selectedLanguage]!['email']!,
                 border: OutlineInputBorder(),
                 filled: true,
                 fillColor: Colors.white
@@ -113,7 +137,7 @@ class _UserLoginState extends State<UserLogin> {
               controller: passwordController,
               obscureText: _obscurePassword,
               decoration: InputDecoration(
-                labelText: 'Password',
+                labelText: textLanguage[selectedLanguage]!['password']!,
                 border: OutlineInputBorder(),
                 filled: true,
                 fillColor: Colors.white,
@@ -128,14 +152,18 @@ class _UserLoginState extends State<UserLogin> {
               ),
             ),
             SizedBox(height: 6),
+            /* Forgot password >> reset password UI */
             TextButton(
                 onPressed: () {
                   Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ChangePassword()) // Takes context as input and returns the screen/widget you want to display
+                      MaterialPageRoute(builder: (context) => ChangePassword(
+                        selectedLanguage: selectedLanguage,
+                        onLanguageChanged: handleLanguageChange
+                      )) // Takes context as input and returns the screen/widget you want to display
                   );
                 },
-                child: const Text('Forgot your password? Reset here')
+                child: Text(textLanguage[selectedLanguage]!['forgotPassword']!)
             ),
             SizedBox(height: 15),
             /* Login Button */
@@ -144,17 +172,20 @@ class _UserLoginState extends State<UserLogin> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
               ),
-              child: const Text('Login'),
+              child: Text(textLanguage[selectedLanguage]!['login']!),
             ),
             SizedBox(height: 65),
             TextButton(
                 onPressed: () {
                   Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => RegisterPage()) // Takes context as input and returns the screen/widget you want to display
+                      MaterialPageRoute(builder: (context) => RegisterPage(
+                        selectedLanguage: selectedLanguage,
+                        onLanguageChanged: handleLanguageChange
+                      )) // Takes context as input and returns the screen/widget you want to display
                   );
                 },
-                child: const Text('Don\'t have an account? Register here')
+                child: Text(textLanguage[selectedLanguage]!['dontHaveAccount']!)
             ),
           ],
         ),
