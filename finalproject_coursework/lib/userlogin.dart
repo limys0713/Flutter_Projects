@@ -18,7 +18,7 @@ class _UserLoginState extends State<UserLogin> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool _obscurePassword = true;
-  String selectedLanguage = 'en';
+  //String selectedLanguage = 'zh';
 
   /* Dispose objects that managing system memory after the execution ends */
   @override
@@ -28,13 +28,19 @@ class _UserLoginState extends State<UserLogin> {
     super.dispose();
   }
 
+  // void handleLanguageChange(String lang){
+  //   setState(() {
+  //     selectedLanguage = lang;
+  //   });
+  // }
+
   void handleLogin() async{
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
 
     if(email.isEmpty || password.isEmpty){
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(textLanguage[selectedLanguage]!['pleaseEnterEmailPassword']!)),   // !: null check operator >> ensure that it is not null
+        SnackBar(content: Text(textLanguage[globalLanguage.value]!['pleaseEnterEmailPassword']!)),   // !: null check operator >> ensure that it is not null
       );
       return;
     }
@@ -52,7 +58,7 @@ class _UserLoginState extends State<UserLogin> {
       if (!mounted) return;
 
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(textLanguage[selectedLanguage]!['loginSuccess']!))
+          SnackBar(content: Text(textLanguage[globalLanguage.value]!['loginSuccess']!))
       );
 
       // TODO: Navigate to another screen here
@@ -63,133 +69,124 @@ class _UserLoginState extends State<UserLogin> {
 
     } catch(e){ /* Fail to login */
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${textLanguage[selectedLanguage]!['loginFail']!} ${e.toString()}'))
+          SnackBar(content: Text('${textLanguage[globalLanguage.value]!['loginFail']!} ${e.toString()}'))
       );
     }
   }
 
-  void handleLanguageChange(String lang){
-    setState(() {
-      selectedLanguage = lang;
-    });
-}
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blue[50],
-        actions: [
-          PopupMenuButton<String>(
-            icon: const Icon(Icons.language),
-            onSelected: (String language){
-              setState(() {
-                selectedLanguage = language;
-              });
-            },
-            itemBuilder: (BuildContext context) => [
-              const PopupMenuItem(value: 'en', child: Text('English')),
-              const PopupMenuItem(value: 'zh', child: Text('中文')),
-            ]
-          )
-        ],
-      ),
-      backgroundColor: Colors.blue[50],
-      // User Login UI
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(vertical: 80, horizontal: 20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min, // Tells the Column to only occupy as much vertical space as its children need
-          children: [
-            Icon(Icons.local_hospital_rounded, size: 100, color: Colors.red[600]),
-            // Image.asset(
-            //   'assets/images/healthcare_image.png',
-            //   height: 120,
-            // ),
-            /* App Title */
-            Text(
-              textLanguage[selectedLanguage]!['appTitle']!,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 45,
-                fontWeight: FontWeight.bold,
-                color: Colors.blue[900],
-                letterSpacing: 1.0
-              ),
-            ),
-            SizedBox(height: 45),
-            /* User Login Text */
-            Text(textLanguage[selectedLanguage]!['userLogin']!, style: TextStyle(fontSize: 32)),
-            SizedBox(height: 20),  // Adds vertical spacing below the title
-            /* Email Input */
-            TextField(  // Widget class that used to get input
-              controller: emailController,  // TextEditingController variable
-              decoration: InputDecoration(
-                labelText: textLanguage[selectedLanguage]!['email']!,
-                border: OutlineInputBorder(),
-                filled: true,
-                fillColor: Colors.white
-              ),
-            ),
-            SizedBox(height: 12),
-            /* Password Input */
-            TextField(
-              controller: passwordController,
-              obscureText: _obscurePassword,
-              decoration: InputDecoration(
-                labelText: textLanguage[selectedLanguage]!['password']!,
-                border: OutlineInputBorder(),
-                filled: true,
-                fillColor: Colors.white,
-                suffixIcon: IconButton(
-                    onPressed: (){
-                      setState(() {
-                        _obscurePassword = !_obscurePassword;
-                      });
+    return ValueListenableBuilder<String>(    // There is no need to use setState(), it monitors ValueNotifier object
+      valueListenable: globalLanguage,  // Object that is being monitored
+      builder: (context, selectedLanguage, _){  // selectedLanguage = globalLanguage.value  // Widget Function(BuildContext context, T value, Widget? child)
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.blue[50],
+            actions: [
+              PopupMenuButton<String>(
+                  icon: const Icon(Icons.language),
+                  onSelected: (String language){
+                    globalLanguage.value = language;
+                  },
+                  itemBuilder: (BuildContext context) => [
+                    const PopupMenuItem(value: 'zh', child: Text('繁體中文')),
+                    const PopupMenuItem(value: 'en', child: Text('English'))
+                  ]
+              )
+            ],
+          ),
+          backgroundColor: Colors.blue[50],
+          // User Login UI
+          body: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(vertical: 80, horizontal: 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min, // Tells the Column to only occupy as much vertical space as its children need
+              children: [
+                Icon(Icons.local_hospital_rounded, size: 100, color: Colors.red[600]),
+                // Image.asset(
+                //   'assets/images/healthcare_image.png',
+                //   height: 120,
+                // ),
+                /* App Title */
+                Text(
+                  textLanguage[selectedLanguage]!['appTitle']!,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 45,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue[900],
+                      letterSpacing: 1.0
+                  ),
+                ),
+                SizedBox(height: 45),
+                /* User Login Text */
+                Text(textLanguage[selectedLanguage]!['userLogin']!, style: TextStyle(fontSize: 32)),
+                SizedBox(height: 20),  // Adds vertical spacing below the title
+                /* Email Input */
+                TextField(  // Widget class that used to get input
+                  controller: emailController,  // TextEditingController variable
+                  decoration: InputDecoration(
+                      labelText: textLanguage[selectedLanguage]!['email']!,
+                      border: OutlineInputBorder(),
+                      filled: true,
+                      fillColor: Colors.white
+                  ),
+                ),
+                SizedBox(height: 12),
+                /* Password Input */
+                TextField(
+                  controller: passwordController,
+                  obscureText: _obscurePassword,
+                  decoration: InputDecoration(
+                      labelText: textLanguage[selectedLanguage]!['password']!,
+                      border: OutlineInputBorder(),
+                      filled: true,
+                      fillColor: Colors.white,
+                      suffixIcon: IconButton(
+                          onPressed: (){
+                            setState(() {
+                              _obscurePassword = !_obscurePassword;
+                            });
+                          },
+                          icon: Icon(Icons.remove_red_eye)
+                      )
+                  ),
+                ),
+                SizedBox(height: 6),
+                /* Forgot password >> reset password UI */
+                TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ChangePassword()) // Takes context as input and returns the screen/widget you want to display
+                      );
                     },
-                    icon: Icon(Icons.remove_red_eye)
-                )
-              ),
+                    child: Text(textLanguage[selectedLanguage]!['forgotPassword']!)
+                ),
+                SizedBox(height: 15),
+                /* Login Button */
+                ElevatedButton( // A raised button with background colour and elevation
+                  onPressed: handleLogin, // Passing a function >> run when the button  is pressed // handleLogin(): Calling the function and trying to give its result(void) to onPressed
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                  ),
+                  child: Text(textLanguage[selectedLanguage]!['login']!),
+                ),
+                SizedBox(height: 65),
+                TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => RegisterPage()) // Takes context as input and returns the screen/widget you want to display
+                      );
+                    },
+                    child: Text(textLanguage[selectedLanguage]!['dontHaveAccount']!)
+                ),
+              ],
             ),
-            SizedBox(height: 6),
-            /* Forgot password >> reset password UI */
-            TextButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ChangePassword(
-                        selectedLanguage: selectedLanguage,
-                        onLanguageChanged: handleLanguageChange
-                      )) // Takes context as input and returns the screen/widget you want to display
-                  );
-                },
-                child: Text(textLanguage[selectedLanguage]!['forgotPassword']!)
-            ),
-            SizedBox(height: 15),
-            /* Login Button */
-            ElevatedButton( // A raised button with background colour and elevation
-              onPressed: handleLogin, // Passing a function >> run when the button  is pressed // handleLogin(): Calling the function and trying to give its result(void) to onPressed
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-              ),
-              child: Text(textLanguage[selectedLanguage]!['login']!),
-            ),
-            SizedBox(height: 65),
-            TextButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => RegisterPage(
-                        selectedLanguage: selectedLanguage,
-                        onLanguageChanged: handleLanguageChange
-                      )) // Takes context as input and returns the screen/widget you want to display
-                  );
-                },
-                child: Text(textLanguage[selectedLanguage]!['dontHaveAccount']!)
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      }
     );
   }
 }

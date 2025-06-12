@@ -1,3 +1,9 @@
+import 'package:flutter/material.dart';
+
+// Control the language of every page (reactive variable)
+// Object being monitored for changes
+final ValueNotifier<String> globalLanguage = ValueNotifier<String>('zh'); // Initialize
+
 const Map<String, Map<String, String>> textLanguage = {
   'en': {
     'appTitle': 'Healthcare Visit Helper APP',
@@ -21,7 +27,17 @@ const Map<String, Map<String, String>> textLanguage = {
     'registerSuccess': 'Registration successful!',
     'registerFail': 'Registration failed:',
     'resetSent': 'Password reset email sent',
-    'resetError': 'Error:'
+    'resetError': 'Error:',
+
+    // Home Page texts
+    'clinicRecommender': 'Clinic Recommendation System',
+    'selectCity': 'Select your city:',
+    'commonSymptoms': 'Common symptoms (multi-select):',
+    'inputSymptoms': 'Please describe your symptoms',
+    'submitFirst': 'Get Recommendation',
+    'submitFollowUp': 'Answer Follow-up',
+    'searchFailed': 'Search failed, please try again later.',
+    'errorOccurred': 'An error occurred:',
   },
   'zh': {
     'appTitle': '看診建議APP',
@@ -45,6 +61,16 @@ const Map<String, Map<String, String>> textLanguage = {
     'registerSuccess': '註冊成功！',
     'registerFail': '註冊失敗：',
     'resetSent': '已寄送密碼重設信',
-    'resetError': '錯誤：'
+    'resetError': '錯誤：',
+
+    // Home Page words
+    'clinicRecommender': '診所推薦系統',
+    'selectCity': '選擇所在縣市：',
+    'commonSymptoms': '點選常見症狀（可複選）：',
+    'inputSymptoms': '請輸入您的症狀',
+    'submitFirst': '推薦診所',
+    'submitFollowUp': '回覆問題',
+    'searchFailed': '搜尋失敗，請稍後再試。',
+    'errorOccurred': '發生錯誤：',
   }
 };
