@@ -30,10 +30,9 @@ class _HomePageState extends State<HomePage> {
       "image" : "assets/images/anne_hathaway.jpg",
       "description" : {
         "en": '''
-        Anne Hathaway is an American actress known for her versatility across film genres, from romantic comedies to intense dramas. She gained early recognition for her breakout role in The Princess Diaries (2001) and later solidified her reputation with critically acclaimed performances in films like The Devil Wears Prada (2006), Les Misérables (2012), and Interstellar (2014).\n 
-        Her role as Fantine in Les Misérables earned her an Academy Award for Best Supporting Actress. Known for her elegance, emotional depth, and strong screen presence, Hathaway continues to be a prominent figure in Hollywood.
+        Anne Hathaway is an American actress known for her versatility across film genres, from romantic comedies to intense dramas. She gained early recognition for her breakout role in The Princess Diaries (2001) and later solidified her reputation with critically acclaimed performances in films like The Devil Wears Prada (2006), Les Misérables (2012), and Interstellar (2014).
         ''',
-        "zh": "\u3000\u3000安妮·海瑟薇是一位美國女演員，以在各類電影類型中展現多變演技而聞名，從浪漫喜劇到深刻劇情片都有出色表現。她因2001年的《麻雀變公主》一舉成名，並在《穿著Prada的惡魔》（2006）、《悲慘世界》（2012）、《星際效應》（2014）等作品中獲得讚譽。\n\u3000\u3000她在《悲慘世界》中飾演芳汀的角色，贏得奧斯卡最佳女配角獎。憑藉她的優雅氣質、情感深度和強烈的銀幕魅力，海瑟薇持續是好萊塢的重要人物之一。",
+        "zh": "\u3000\u3000安妮·海瑟薇是一位美國女演員，以在各類電影類型中展現多變演技而聞名，從浪漫喜劇到深刻劇情片都有出色表現。她因2001年的《麻雀變公主》一舉成名，並在《穿著Prada的惡魔》（2006）、《悲慘世界》（2012）、《星際效應》（2014）等作品中獲得讚譽。",
       }
     },
     {
@@ -48,10 +47,9 @@ class _HomePageState extends State<HomePage> {
       "image" : "assets/images/donald_trump.jpg",
       "description" : {
         "en": '''
-        Donald Trump is an American businessman, television personality, and politician who served as the 45th President of the United States from 2017 to 2021. Before entering politics, he was widely known as a real estate developer and the host of the reality TV show The Apprentice. A member of the Republican Party, Trump’s presidency was marked by unconventional communication, strong nationalist rhetoric, economic reforms, and controversial immigration and foreign policy decisions.\n
-        He was impeached twice by the House of Representatives but acquitted both times by the Senate. Even after leaving office, he remains a highly influential and polarizing figure in American politics.
+        Donald Trump is an American businessman, television personality, and politician who served as the 45th President of the United States from 2017 to 2021. He is a member of the Republican Party, Trump’s presidency was marked by unconventional communication, strong nationalist rhetoric, economic reforms, and controversial immigration and foreign policy decisions.
         ''',
-        "zh": "\u3000\u3000唐納·川普是一位美國商人、電視名人與政治人物，曾於2017年至2021年擔任美國第45任總統。在進入政壇之前，他因為房地產事業以及主持實境節目《誰是接班人》而廣為人知。作為共和黨成員，川普的總統任期以非傳統溝通方式、強烈民族主義言論、經濟改革及具爭議的移民與外交政策聞名。\n\u3000\u3000他曾兩度遭眾議院彈劾，但兩次均獲參議院無罪判決。即使卸任後，他依然是美國政壇極具影響力且具爭議性的人物。"
+        "zh": "\u3000\u3000唐納·川普是一位美國商人、電視名人與政治人物，曾於2017年至2021年擔任美國第45任總統。作為共和黨成員，川普的總統任期以非傳統溝通方式、強烈民族主義言論、經濟改革及具爭議的移民與外交政策聞名。"
       }
     },
     {

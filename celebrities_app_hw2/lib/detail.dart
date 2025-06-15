@@ -125,8 +125,11 @@ class FloatingButtonSection extends StatelessWidget {
         //     break;
         //   }
         // }
-
-        String? path = await processAudioFile("Testing");
+        String fullText = celebrity["description"][language]
+            .replaceAll('\n', ' ')     // Remove newlines
+            .replaceAll(RegExp(r'\s+'), ' ') // Remove double spaces
+            .trim();                   // Remove leading/trailing whitespace
+        String? path = await processAudioFile(fullText, language);
         if(path != null){
           final player = AudioPlayer();
           await player.setFilePath(path); // Set local file

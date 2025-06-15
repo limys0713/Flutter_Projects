@@ -86,10 +86,10 @@ class Client {
 }
 
 // 處理音檔的函數
-Future<String?> processAudioFile(String text) async {
+Future<String?> processAudioFile(String text, String language) async {
   String speaker = "4794";
   Client client = Client(); // 每次建立新的 Client 連線
-  client.send('en', speaker, text);
+  client.send(language, speaker, text);
 
   String result = await client.receive();
 
