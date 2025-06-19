@@ -1,8 +1,14 @@
 //Version4 - 加入搜尋中動畫提示
+import 'package:finalproject_coursework/userlogin.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:finalproject_coursework/language_mapping.dart';
+// import 'package:path_provider/path_provider.dart';
+// import 'package:just_audio/just_audio.dart';
+// import 'package:record/record.dart';
+// import 'package:finalproject_coursework/stt.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -30,6 +36,32 @@ class _HomePageState extends State<HomePage> {
   void dispose(){
     _symptomController.dispose();
     super.dispose();
+  }
+
+  // Logout onPressed function
+  void logOut() async{
+    // Dialog:對話框
+    final wantLogout = await showDialog<bool>(  // <bool>: Used to receive true and false from TextButton
+      context: context,
+      builder: (context) => AlertDialog(  // Ensure action dialog
+        title: Text('Logout'),      //***
+        content: Text('Are you sure you want to log out?'), //***
+        actions: [  // Dialog button control
+          TextButton(onPressed: () => Navigator.pop(context, true), child: Text('Logout')),
+          TextButton(onPressed: () => Navigator.pop(context, false), child: Text('Cancel'))
+        ],
+      )
+    );
+
+    if(wantLogout ?? false){  // if it is null, then false; otherwise look at the value(true or false)
+      await FirebaseAuth.instance.signOut();  // Logout
+      if(!mounted) return;
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const UserLogin()), // Link to UserLogin page
+        (route) => false
+      );
+    }
   }
 
   Future<void> getRecommendation(String userInput) async {
@@ -92,6 +124,10 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  bool isRecording = false;
+  // final record = AudioRecorder();
+  // final player = AudioPlayer();
+
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
@@ -101,7 +137,7 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Colors.blue[50],
           appBar: AppBar(
             backgroundColor: Colors.blue[50],
-            title: Text(textLanguage[selectedLanguage]!['clinicRecommender']!, style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+            title: Text(textLanguage[selectedLanguage]!['clinicRecommender']!, style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18)),
             actions: [
               PopupMenuButton<String>(
                   icon: const Icon(Icons.language),
@@ -112,6 +148,11 @@ class _HomePageState extends State<HomePage> {
                     const PopupMenuItem(value: 'zh', child: Text('繁體中文')),
                     const PopupMenuItem(value: 'en', child: Text('English'))
                   ]
+              ),
+              // LogOut Button
+              TextButton(
+                onPressed: logOut,
+                child: Text('Logout', style: TextStyle(color: Colors.black),)
               )
             ],
           ),
@@ -154,32 +195,36 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(height: 20),
                 Text(textLanguage[selectedLanguage]!['commonSymptoms']!, style: TextStyle(fontWeight: FontWeight.bold)),
                 const SizedBox(height: 8),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: commonSymptoms.map((symptom) {
-                    final isSelected = selectedSymptoms.contains(symptom);
-                    return FilterChip(
-                      label: Text(symptom),
-                      selected: isSelected,
-                      onSelected: (bool selected) {
-                        setState(() {
-                          if (selected) {
-                            selectedSymptoms.add(symptom);
-                          } else {
-                            selectedSymptoms.remove(symptom);
-                          }
-                          _symptomController.text = selectedSymptoms.join('、');
-                        });
-                      },
-                      selectedColor: Colors.blue[200],
-                      backgroundColor: Colors.blue[50],
-                      checkmarkColor: Colors.white,
-                      labelStyle: TextStyle(
-                        color: isSelected ? Colors.white : Colors.black,
-                      ),
-                    );
-                  }).toList(),
+                Stack(
+                  children: [
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: commonSymptoms.map((symptom) {
+                        final isSelected = selectedSymptoms.contains(symptom);
+                        return FilterChip(
+                          label: Text(symptom),
+                          selected: isSelected,
+                          onSelected: (bool selected) {
+                            setState(() {
+                              if (selected) {
+                                selectedSymptoms.add(symptom);
+                              } else {
+                                selectedSymptoms.remove(symptom);
+                              }
+                              _symptomController.text = selectedSymptoms.join('、');
+                            });
+                          },
+                          selectedColor: Colors.blue[200],
+                          backgroundColor: Colors.blue[50],
+                          checkmarkColor: Colors.white,
+                          labelStyle: TextStyle(
+                            color: isSelected ? Colors.white : Colors.black,
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 20),
                 Card(
@@ -189,13 +234,34 @@ class _HomePageState extends State<HomePage> {
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
                       children: [
-                        TextField(
-                          controller: _symptomController,
-                          maxLines: 3,
-                          decoration: InputDecoration(
-                            labelText: textLanguage[selectedLanguage]!['inputSymptoms']!,
-                            border: OutlineInputBorder(),
-                          ),
+                        Stack(
+                          children: [
+                            TextField(
+                              controller: _symptomController,
+                              maxLines: 5,
+                              decoration: InputDecoration(
+                                labelText: textLanguage[selectedLanguage]!['inputSymptoms']!,
+                                border: const OutlineInputBorder(),
+                                //contentPadding: const EdgeInsets.fromLTRB(12, 12, 50, 12), // 留右邊空間給按鈕
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 8,
+                              right: 8,
+                              child: Container(
+                                margin: const EdgeInsets.symmetric(horizontal: 5),
+                                width: 50,
+                                height: 50,
+                                child: FloatingActionButton(
+                                  onPressed: () {
+
+                                  },
+                                  backgroundColor: isRecording ? Colors.red : Colors.blue,
+                                  child: const Icon(Icons.mic, size: 25, color: Colors.white,),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 12),
                         Center(

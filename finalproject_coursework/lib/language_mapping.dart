@@ -38,6 +38,23 @@ const Map<String, Map<String, String>> textLanguage = {
     'submitFollowUp': 'Answer Follow-up',
     'searchFailed': 'Search failed, please try again later.',
     'errorOccurred': 'An error occurred:',
+
+    'taipei': 'Taipei City',
+    'newTaipei': 'New Taipei City',
+    'taoyuan': 'Taoyuan City',
+    'taichung': 'Taichung City',
+    'tainan': 'Tainan City',
+    'kaohsiung': 'Kaohsiung City',
+    'fever': 'Fever',
+    'cough': 'Cough',
+    'soreThroat': 'Sore Throat',
+    'headache': 'Headache',
+    'runnyNose': 'Runny Nose',
+    'vomit': 'Vomiting',
+    'diarrhea': 'Diarrhea',
+    'chestTight': 'Chest Tightness',
+    'musclePain': 'Muscle Soreness',
+    'fatigue': 'Fatigue'
   },
   'zh': {
     'appTitle': '看診建議APP',
@@ -72,5 +89,22 @@ const Map<String, Map<String, String>> textLanguage = {
     'submitFollowUp': '回覆問題',
     'searchFailed': '搜尋失敗，請稍後再試。',
     'errorOccurred': '發生錯誤：',
+
+    'taipei': '台北市',
+    'newTaipei': '新北市',
+    'taoyuan': '桃園市',
+    'taichung': '台中市',
+    'tainan': '台南市',
+    'kaohsiung': '高雄市',
+    'fever': '發燒',
+    'cough': '咳嗽',
+    'soreThroat': '喉嚨痛',
+    'headache': '頭痛',
+    'runnyNose': '流鼻水',
+    'vomit': '嘔吐',
+    'diarrhea': '腹瀉',
+    'chestTight': '胸悶',
+    'musclePain': '肌肉痠痛',
+    'fatigue': '全身無力'
   }
 };
