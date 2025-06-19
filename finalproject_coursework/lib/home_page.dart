@@ -18,7 +18,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String selectedCity = '台北市';
+  String selectedCity = textLanguage[globalLanguage.value]!['taipei']!;
   final TextEditingController _symptomController = TextEditingController();
   String responseText = '';
   bool awaitingFollowUp = false;
@@ -26,11 +26,43 @@ class _HomePageState extends State<HomePage> {
   List<Map<String, String>> messageHistory = [];
   bool isLoading = false;
 
+  final List<String> cityKeys = [
+    'taipei',
+    'newTaipei',
+    'taoyuan',
+    'taichung',
+    'tainan',
+    'kaohsiung',
+    'hsinchu',
+    'miaoli',
+    'changhua',
+    'yunlin',
+    'chiayi',
+    'pingtung',
+    'taitung',
+    'hualien',
+    'yilan',
+    'keelung',
+    'nantou',
+  ];
+
   final List<String> commonSymptoms = [
     '發燒', '咳嗽', '喉嚨痛', '頭痛', '流鼻水',
     '嘔吐', '腹瀉', '胸悶', '肌肉痠痛', '全身無力'
   ];
   Set<String> selectedSymptoms = {};
+
+  @override
+  void initState() {
+    super.initState();
+    globalLanguage.addListener(() {
+      setState(() {
+        // 轉語言時同步把 city 顯示文字也更新
+        selectedCity = textLanguage[globalLanguage.value]!['taipei']!;
+      });
+    });
+  }
+
 
   @override
   void dispose(){
@@ -44,11 +76,11 @@ class _HomePageState extends State<HomePage> {
     final wantLogout = await showDialog<bool>(  // <bool>: Used to receive true and false from TextButton
       context: context,
       builder: (context) => AlertDialog(  // Ensure action dialog
-        title: Text('Logout'),      //***
-        content: Text('Are you sure you want to log out?'), //***
+        title: Text(textLanguage[globalLanguage.value]!['logOut']!),
+        content: Text(textLanguage[globalLanguage.value]!['confirmLogOut']!),
         actions: [  // Dialog button control
-          TextButton(onPressed: () => Navigator.pop(context, true), child: Text('Logout')),
-          TextButton(onPressed: () => Navigator.pop(context, false), child: Text('Cancel'))
+          TextButton(onPressed: () => Navigator.pop(context, true), child: Text(textLanguage[globalLanguage.value]!['logOut']!)),
+          TextButton(onPressed: () => Navigator.pop(context, false), child: Text(textLanguage[globalLanguage.value]!['cancel']!))
         ],
       )
     );
@@ -152,7 +184,7 @@ class _HomePageState extends State<HomePage> {
               // LogOut Button
               TextButton(
                 onPressed: logOut,
-                child: Text('Logout', style: TextStyle(color: Colors.black),)
+                child: Text(textLanguage[selectedLanguage]!['logOut']!, style: TextStyle(color: Colors.black),)
               )
             ],
           ),
@@ -174,14 +206,15 @@ class _HomePageState extends State<HomePage> {
                         const Spacer(),
                         DropdownButton<String>(
                           value: selectedCity,
+                          menuMaxHeight: 300,
                           underline: const SizedBox(),
-                          items: [
-                            //先訂六都 之後全部弄好再全加進去
-                            '台北市', '新北市', '桃園市', '台中市', '台南市', '高雄市'
-                          ].map((city) => DropdownMenuItem(
-                            value: city,
-                            child: Text(city),
-                          )).toList(),
+                          items: cityKeys.map((key){
+                            final label = textLanguage[selectedLanguage]![key]!; // 根據目前語言拿對應翻譯
+                            return DropdownMenuItem<String>(
+                              value: label,
+                              child: Text(label),
+                            );
+                          }).toList(),
                           onChanged: (value) {
                             setState(() {
                               selectedCity = value!;
@@ -250,8 +283,8 @@ class _HomePageState extends State<HomePage> {
                               right: 8,
                               child: Container(
                                 margin: const EdgeInsets.symmetric(horizontal: 5),
-                                width: 50,
-                                height: 50,
+                                width: 45,
+                                height: 45,
                                 child: FloatingActionButton(
                                   onPressed: () {
 
