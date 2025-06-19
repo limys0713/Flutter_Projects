@@ -45,11 +45,14 @@ class _HomePageState extends State<HomePage> {
     'keelung',
     'nantou',
   ];
-
-  final List<String> commonSymptoms = [
-    '發燒', '咳嗽', '喉嚨痛', '頭痛', '流鼻水',
-    '嘔吐', '腹瀉', '胸悶', '肌肉痠痛', '全身無力'
+  final List<String> symptomKeys = [
+    'fever', 'cough', 'soreThroat', 'headache', 'runnyNose',
+    'vomit', 'diarrhea', 'chestTight', 'musclePain', 'fatigue'
   ];
+  // final List<String> commonSymptoms = [
+  //   '發燒', '咳嗽', '喉嚨痛', '頭痛', '流鼻水',
+  //   '嘔吐', '腹瀉', '胸悶', '肌肉痠痛', '全身無力'
+  // ];
   Set<String> selectedSymptoms = {};
 
   @override
@@ -62,7 +65,6 @@ class _HomePageState extends State<HomePage> {
       });
     });
   }
-
 
   @override
   void dispose(){
@@ -233,19 +235,22 @@ class _HomePageState extends State<HomePage> {
                     Wrap(
                       spacing: 8,
                       runSpacing: 8,
-                      children: commonSymptoms.map((symptom) {
-                        final isSelected = selectedSymptoms.contains(symptom);
+                      children: symptomKeys.map((key) {
+                        final label  = textLanguage[selectedLanguage]![key]!;
+                        final isSelected = selectedSymptoms.contains(key);
                         return FilterChip(
-                          label: Text(symptom),
+                          label: Text(label),
                           selected: isSelected,
                           onSelected: (bool selected) {
                             setState(() {
                               if (selected) {
-                                selectedSymptoms.add(symptom);
+                                selectedSymptoms.add(key);
                               } else {
-                                selectedSymptoms.remove(symptom);
+                                selectedSymptoms.remove(key);
                               }
-                              _symptomController.text = selectedSymptoms.join('、');
+                              _symptomController.text = selectedSymptoms
+                                .map((k) => textLanguage[selectedLanguage]![k]!)
+                                  .join(selectedLanguage == 'zh' ? '、' : ', ');
                             });
                           },
                           selectedColor: Colors.blue[200],
